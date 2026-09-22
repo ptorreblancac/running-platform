@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM runs ORDER BY date DESC");
+        const result = await pool.query("SELECT id, date::text, distance, duration, run_type, elevation, heart_rate, notes, created_at FROM runs ORDER BY date DESC");
 
         res.json(result.rows);
     } catch (error) {
@@ -17,9 +17,13 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await pool.query("SELECT * FROM runs WHERE id = $1 ORDER BY date DESC",[id]);
+        const result = await pool.query("SELECT id, date::text, distance, duration, run_type, elevation, heart_rate, notes, created_at FROM runs WHERE id = $1",[id]);
 
-        res.json(result.rows);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Run not found" });
+        }
+
+        res.json(result.rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Database error" });
@@ -37,6 +41,12 @@ router.post("/", async (req, res) => {
             heart_rate,
             notes
         } = req.body;
+
+        if (!date || !distance || !duration || !run_type) {
+            return res.status(400).json( {error: "Missing required fields"} );
+        } else if (distance <= 0 || duration <= 0) {
+            return res.status(400).json( {error: "Invalid values"} );
+        }
 
         const result = await pool.query(
             `INSERT INTO runs
