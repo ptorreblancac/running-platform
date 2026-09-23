@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
             notes
         } = req.body;
 
-        if (!date || !distance || !duration || !run_type) {
+        if (!date || distance === undefined || duration === undefined || !run_type) {            
             return res.status(400).json( {error: "Missing required fields"} );
         } else if (distance <= 0 || duration <= 0) {
             return res.status(400).json( {error: "Invalid values"} );
@@ -86,6 +86,12 @@ router.put("/:id", async (req, res) => {
             [date, distance, duration, run_type, elevation, heart_rate, notes, id]
         );
 
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                error: "Run not found"
+            });
+        }
+
         res.status(200).json(result.rows[0]);
 
     } catch (error) {
@@ -101,6 +107,12 @@ router.delete("/:id", async (req, res) => {
              `DELETE FROM runs
               WHERE id = $1`, [id]
         );
+
+        if (result.rowCount === 0) {
+        return res.status(404).json({
+            error: "Run not found"
+        });
+}
 
         res.json({ message : "Run deleted succesfully!" });
     } catch (error) {
