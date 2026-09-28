@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import RunCard from "./components/RunCard";
 import { formatPace } from "./utils/formatters";
-
+import RunForm from "./components/RunForm";
 
 function App() {
 
@@ -30,6 +30,10 @@ function App() {
             });
 
     }, []);
+
+    function handleRunCreated(newRun) {
+        setRuns(prevRuns => [newRun, ...prevRuns]);
+    }
 
     const totalRuns = runs.length;
 
@@ -73,6 +77,8 @@ function App() {
                     <strong>{formattedPace} min/km</strong>
                 </div>
             </div>
+
+            <RunForm onRunCreated={handleRunCreated}/>
 
             <h2>My Runs</h2>
 

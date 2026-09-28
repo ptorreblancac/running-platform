@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
             `INSERT INTO runs
             (date, distance, duration, run_type, elevation, heart_rate, notes)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING *`,
+            RETURNING id, date::text, distance, duration, run_type, elevation, heart_rate, notes, created_at`,
             [date, distance, duration, run_type, elevation, heart_rate, notes]
         );
 
@@ -82,7 +82,7 @@ router.put("/:id", async (req, res) => {
             SET date = $1, distance = $2, duration = $3, run_type = $4, elevation = $5,
             heart_rate = $6, notes = $7
             WHERE id = $8
-            RETURNING *`,
+            RETURNING id, date::text, distance, duration, run_type, elevation, heart_rate, notes, created_at`,
             [date, distance, duration, run_type, elevation, heart_rate, notes, id]
         );
 
