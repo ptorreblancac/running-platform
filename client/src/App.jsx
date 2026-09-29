@@ -6,6 +6,7 @@ import RunForm from "./components/RunForm";
 function App() {
 
     const [runs, setRuns] = useState([]);
+    const [editingRun, setEditingRun] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -33,6 +34,43 @@ function App() {
 
     function handleRunCreated(newRun) {
         setRuns(prevRuns => [newRun, ...prevRuns]);
+    }
+
+    function handleRunUpdated(updatedRun) {
+        console.log("Updating React state with:", updatedRun);
+        setRuns(prevRuns =>
+            prevRuns.map(run =>
+                run.id === updatedRun.id ? updatedRun : run
+            )
+        );
+    }
+
+    async function handleDelete(id) {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this run?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+        const response = await fetch(
+            `http://localhost:3000/api/runs/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to delete run");
+        }
+
+        setRuns(prevRuns =>
+            prevRuns.filter(run => run.id !== id)
+        );
+    }
+
+    function handleEdit(run) {
+        setEditingRun(run);
     }
 
     const totalRuns = runs.length;
@@ -78,7 +116,13 @@ function App() {
                 </div>
             </div>
 
-            <RunForm onRunCreated={handleRunCreated}/>
+            <RunForm 
+                onRunCreated={handleRunCreated}
+                onRunUpdated={handleRunUpdated}
+                onCancelEdit={() => setEditingRun(null)}
+                editingRun={editingRun}
+            />
+ 
 
             <h2>My Runs</h2>
 
@@ -86,7 +130,12 @@ function App() {
                 <p>No runs yet. Add your first run!</p>
             ) : (
                 runs.map(run => (
-                    <RunCard key={run.id} run={run} />
+                    <RunCard 
+                     key={run.id}
+                     run={run}
+                     onEdit={handleEdit} 
+                     onDelete={handleDelete}
+                    />
                 ))
             )}
         </div>

@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function RunForm({ onRunCreated }) {
+function RunForm({
+        onRunCreated,
+        onRunUpdated,
+        onCancelEdit,
+        editingRun
+    }) {    
     const [error, setError] = useState("");
 
     const [formData, setFormData] = useState({
@@ -12,6 +17,30 @@ function RunForm({ onRunCreated }) {
         heart_rate: "",
         notes: ""
     });
+
+    useEffect(() => {
+        if (editingRun) {
+            setFormData({
+                date: editingRun.date,
+                distance: editingRun.distance,
+                duration: editingRun.duration,
+                run_type: editingRun.run_type,
+                elevation: editingRun.elevation ?? "",
+                heart_rate: editingRun.heart_rate ?? "",
+                notes: editingRun.notes ?? ""
+            });
+        } else {
+            setFormData({
+                date: "",
+                distance: "",
+                duration: "",
+                run_type: "",
+                elevation: "",
+                heart_rate: "",
+                notes: ""
+            });
+        }
+    }, [editingRun]);
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -47,35 +76,45 @@ function RunForm({ onRunCreated }) {
             return;
         }
 
-        const response = await fetch("http://localhost:3000/api/runs", {
-            method: "POST",
+        const runData = {
+            date: formData.date,
+            distance: Number(formData.distance),
+            duration: Number(formData.duration),
+            run_type: formData.run_type,
+            elevation: formData.elevation
+                ? Number(formData.elevation)
+                : null,
+            heart_rate: formData.heart_rate
+                ? Number(formData.heart_rate)
+                : null,
+            notes: formData.notes || null
+        };
+
+        const url = editingRun
+            ? `http://localhost:3000/api/runs/${editingRun.id}`
+            : "http://localhost:3000/api/runs";
+
+        const method = editingRun ? "PUT" : "POST";
+
+        const response = await fetch(url, {
+            method,
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                date: formData.date,
-                distance: Number(formData.distance),
-                duration: Number(formData.duration),
-                run_type: formData.run_type,
-                elevation: formData.elevation
-                    ? Number(formData.elevation)
-                    : null,
-                heart_rate: formData.heart_rate
-                    ? Number(formData.heart_rate)
-                    : null,
-                notes: formData.notes || null
-            })
+            body: JSON.stringify(runData)
         });
 
         if (!response.ok) {
             throw new Error("Failed to create run");
         }
 
-        const newRun = await response.json();
+        const savedRun = await response.json();
 
-        console.log("Created run:", newRun);
-
-        onRunCreated(newRun);
+        if (editingRun) {
+            onRunUpdated(savedRun);
+        } else {
+            onRunCreated(savedRun);
+        }
 
         setFormData({
             date: "",
@@ -88,10 +127,9 @@ function RunForm({ onRunCreated }) {
         });
     }
 
-
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Add a Run</h2>
+            <h2>{editingRun ? "Edit Run" : "Add a Run"}</h2>
 
             <label>
                 Date:
@@ -169,8 +207,13 @@ function RunForm({ onRunCreated }) {
             </p>
             {error && <p>{error}</p>}
             <button type="submit">
-                Add Run
+                {editingRun ? "Save Changes" : "Add Run"}
             </button>
+            {editingRun && (
+                <button type="button" onClick={onCancelEdit}>
+                    Cancel
+                </button>
+            )}
         </form>
     );
 }
