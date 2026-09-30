@@ -138,5 +138,25 @@ body {
     background-color: #f5d5d5;
 }
 
+@media (max-width: 700px) {
 
+    #root {
+        padding: 25px 15px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .run-main-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .run-card {
+        padding: 15px;
+    }
+
+}
 
