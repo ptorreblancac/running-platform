@@ -95,26 +95,32 @@ function App() {
     }
 
     return (
-        <div>
-            <h1>Running Platform</h1>
-            <p>My running tracker</p>
+        <div className="app">
 
-            <div className="stats">
-                <div className="stat-card">
-                    <span>Total Runs</span>
-                    <strong>{totalRuns}</strong>
-                </div>
+            <header className="header">
+                <h1>Running Platform</h1>
+                <p>My running tracker</p>
+            </header>
+            
+            <section className="stats">
+                <div className="stats">
+                    <div className="stat-card">
+                        <span>Total Runs</span>
+                        <strong>{totalRuns}</strong>
+                    </div>
 
-                <div className="stat-card">
-                    <span>Total Distance</span>
-                    <strong>{totalDistance.toFixed(2)} km</strong>
-                </div>
+                    <div className="stat-card">
+                        <span>Total Distance</span>
+                        <strong>{totalDistance.toFixed(2)} km</strong>
+                    </div>
 
-                <div className="stat-card">
-                    <span>Average Pace</span>
-                    <strong>{formattedPace} min/km</strong>
+                    <div className="stat-card">
+                        <span>Average Pace</span>
+                        <strong>{formattedPace} min/km</strong>
+                    </div>
                 </div>
-            </div>
+            </section>
+            
 
             <RunForm 
                 onRunCreated={handleRunCreated}
@@ -123,21 +129,28 @@ function App() {
                 editingRun={editingRun}
             />
  
-
-            <h2>My Runs</h2>
-
-            {runs.length === 0 ? (
-                <p>No runs yet. Add your first run!</p>
-            ) : (
-                runs.map(run => (
-                    <RunCard 
-                     key={run.id}
-                     run={run}
-                     onEdit={handleEdit} 
-                     onDelete={handleDelete}
-                    />
-                ))
-            )}
+            <section className="runs-section">
+                <div className="section-header">
+                    <h2>My Runs</h2>
+                </div>
+                
+                <div className="runs-list">
+                    {runs.length === 0 ? (
+                        <p>No runs yet. Add your first run!</p>
+                    ) : (
+                        runs.map(run => (
+                            <RunCard 
+                            key={run.id}
+                            run={run}
+                            onEdit={handleEdit} 
+                            onDelete={handleDelete}
+                            />
+                        ))
+                    )}
+                </div> 
+                
+            </section>
+            
         </div>
     );
 }
