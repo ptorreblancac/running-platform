@@ -6,6 +6,8 @@ import RunForm from "./components/RunForm";
 function App() {
 
     const [runs, setRuns] = useState([]);
+    const [filterType, setFilterType] = useState("all");
+    const [sortBy, setSortBy] = useState("newest");
     const [editingRun, setEditingRun] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -94,6 +96,27 @@ function App() {
         return <p>Error: {error}</p>;
     }
 
+    const filteredRuns = filterType === "all" ? runs : runs.filter(run => run.run_type === filterType);
+
+    const sortedRuns = [...filteredRuns].sort((a,b) => {
+        if (sortBy === "newest") {
+            return new Date(b.date) - new Date(a.date);
+        } else if (sortBy === "oldest") {
+            return new Date(a.date) - new Date(b.date);
+        } else if (sortBy === "distance") {
+            return Number(b.distance) - Number(a.distance);
+        } else if (sortBy === "pace") {
+            const paceA = Number(a.duration) / Number(a.distance);
+            const paceB = Number(b.duration) / Number(b.distance);
+
+            return paceA - paceB;
+        }
+
+        return 0;
+
+
+    })
+
     return (
         <div className="app">
 
@@ -132,13 +155,49 @@ function App() {
             <section className="runs-section">
                 <div className="section-header">
                     <h2>My Runs</h2>
+
+                    <label>
+                        Filter by type:
+                       <select
+                            value={filterType}
+                            onChange={(event => setFilterType(event.target.value))}
+                       >
+                            <option value="all">All</option>
+                            <option value="easy">Easy</option>
+                            <option value="tempo">Tempo</option>
+                            <option value="intervals">Intervals</option>
+                            <option value="long">Long</option>
+                            <option value="race">Race</option>
+                        </select> 
+                        
+                    </label>
+
+                    <label>
+                        Sort by:
+                       <select
+                            value={sortBy}
+                            onChange={(event => setSortBy(event.target.value))}
+                       >
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="distance">Distance</option>
+                            <option value="pace">Pace</option>
+                        </select> 
+                        
+                    </label>
+
                 </div>
                 
                 <div className="runs-list">
-                    {runs.length === 0 ? (
-                        <p>No runs yet. Add your first run!</p>
+                    {sortedRuns.length === 0 ? (
+                        <p>
+                            {filteredRuns === "all" 
+                                ? "No runs yet. Add your first run!" 
+                                : "No runs found for this filter."
+                            }
+                        </p>
                     ) : (
-                        runs.map(run => (
+                        sortedRuns.map(run => (
                             <RunCard 
                             key={run.id}
                             run={run}
