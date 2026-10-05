@@ -126,21 +126,19 @@ function App() {
             </header>
             
             <section className="stats">
-                <div className="stats">
-                    <div className="stat-card">
-                        <span>Total Runs</span>
-                        <strong>{totalRuns}</strong>
-                    </div>
+                <div className="stat-card">
+                    <span>Total Runs</span>
+                    <strong>{totalRuns}</strong>
+                </div>
 
-                    <div className="stat-card">
-                        <span>Total Distance</span>
-                        <strong>{totalDistance.toFixed(2)} km</strong>
-                    </div>
+                <div className="stat-card">
+                    <span>Total Distance</span>
+                    <strong>{totalDistance.toFixed(2)} km</strong>
+                </div>
 
-                    <div className="stat-card">
-                        <span>Average Pace</span>
-                        <strong>{formattedPace} min/km</strong>
-                    </div>
+                <div className="stat-card">
+                    <span>Average Pace</span>
+                    <strong>{formattedPace} /km</strong>
                 </div>
             </section>
             
@@ -156,42 +154,45 @@ function App() {
                 <div className="section-header">
                     <h2>My Runs</h2>
 
-                    <label>
-                        Filter by type:
-                       <select
-                            value={filterType}
-                            onChange={(event => setFilterType(event.target.value))}
-                       >
-                            <option value="all">All</option>
-                            <option value="easy">Easy</option>
-                            <option value="tempo">Tempo</option>
-                            <option value="intervals">Intervals</option>
-                            <option value="long">Long</option>
-                            <option value="race">Race</option>
-                        </select> 
-                        
-                    </label>
+                    <div className="run-controls">
+                        <label>
+                            Filter by type:
+                        <select
+                                value={filterType}
+                                onChange={(event => setFilterType(event.target.value))}
+                        >
+                                <option value="all">All</option>
+                                <option value="easy">Easy</option>
+                                <option value="tempo">Tempo</option>
+                                <option value="intervals">Intervals</option>
+                                <option value="long">Long</option>
+                                <option value="race">Race</option>
+                            </select> 
+                            
+                        </label>
 
-                    <label>
-                        Sort by:
-                       <select
-                            value={sortBy}
-                            onChange={(event => setSortBy(event.target.value))}
-                       >
-                            <option value="newest">Newest</option>
-                            <option value="oldest">Oldest</option>
-                            <option value="distance">Distance</option>
-                            <option value="pace">Pace</option>
-                        </select> 
-                        
-                    </label>
+                        <label>
+                            Sort by:
+                        <select
+                                value={sortBy}
+                                onChange={(event => setSortBy(event.target.value))}
+                        >
+                                <option value="newest">Newest</option>
+                                <option value="oldest">Oldest</option>
+                                <option value="distance">Distance</option>
+                                <option value="pace">Pace</option>
+                            </select> 
+                            
+                        </label>
+                    </div>
+                    
 
                 </div>
                 
                 <div className="runs-list">
                     {sortedRuns.length === 0 ? (
                         <p>
-                            {filteredRuns === "all" 
+                            {filteredType === "all" 
                                 ? "No runs yet. Add your first run!" 
                                 : "No runs found for this filter."
                             }
