@@ -22,7 +22,6 @@ function App() {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 setRuns(data);
             })
             .catch(error => {
@@ -39,7 +38,6 @@ function App() {
     }
 
     function handleRunUpdated(updatedRun) {
-        console.log("Updating React state with:", updatedRun);
         setRuns(prevRuns =>
             prevRuns.map(run =>
                 run.id === updatedRun.id ? updatedRun : run

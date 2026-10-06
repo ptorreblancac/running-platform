@@ -128,7 +128,7 @@ function RunForm({
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="run-form" onSubmit={handleSubmit}>
             <h2>{editingRun ? "Edit Run" : "Add a Run"}</h2>
 
             <label>
@@ -199,21 +199,19 @@ function RunForm({
                     onChange={handleChange}
                 />
             </label>
-            <p>
-                Date: {formData.date} |
-                Distance: {formData.distance} |
-                Duration: {formData.duration} |
-                Type: {formData.run_type}
-            </p>
-            {error && <p>{error}</p>}
-            <button type="submit">
-                {editingRun ? "Save Changes" : "Add Run"}
-            </button>
-            {editingRun && (
-                <button type="button" onClick={onCancelEdit}>
-                    Cancel
+            
+            {error && <p className="form-error">{error}</p>}
+
+            <div className="form-actions">
+                <button type="submit">
+                    {editingRun ? "Save Changes" : "Add Run"}
                 </button>
-            )}
+                {editingRun && (
+                    <button type="button" onClick={onCancelEdit}>
+                        Cancel
+                    </button>
+                )}
+            </div>
         </form>
     );
 }

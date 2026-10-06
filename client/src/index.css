@@ -5,6 +5,12 @@ body {
     color: #222;
 }
 
+.app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
 #root {
     max-width: 1000px;
     margin: 0 auto;
@@ -220,5 +226,109 @@ body {
     .run-controls select {
         min-width: 120px;
     }
+
+    .run-form {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
 }
 
+.run-form {
+    padding: 24px;
+    margin-bottom: 40px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: white;
+}
+
+.run-form h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.run-form labels {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.run-form input,
+.run-form select,
+.run-form textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    background-color: white;
+}
+
+.run-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.form-actions button[type="submit"] {
+    background-color: #222;
+    color: white;
+}
+
+.form-actions button[type="button"] {
+    background-color: #eee;
+    color: #222;
+}
+
+.form-actions button:hover {
+    opacity: 0.8;
+}
+
+.form-error {
+    margin: 10px 0 0;
+    color: #c0392b;
+    font-size: 14px;
+}
+
+.run-form input:focus,
+.run-form select:focus,
+.run-form textarea:focus,
+.run-controls select:focus {
+    outline: none;
+    border-color: #666;
+}
+
+.form-actions button,
+.run-actions button {
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.form-actions button:active,
+.run-actions button:active {
+    transform: scale(0.98);
+}
