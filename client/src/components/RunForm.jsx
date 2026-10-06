@@ -11,7 +11,9 @@ function RunForm({
     const [formData, setFormData] = useState({
         date: "",
         distance: "",
-        duration: "",
+        durationHours: "0",
+        durationMinutes: "0",
+        durationSeconds: "0",
         run_type: "",
         elevation: "",
         heart_rate: "",
@@ -23,7 +25,9 @@ function RunForm({
             setFormData({
                 date: editingRun.date,
                 distance: editingRun.distance,
-                duration: editingRun.duration,
+                durationHours: Math.floor(editingRun.duration / 3600),
+                durationMinutes: Math.floor((editingRun.duration % 3600) / 60),
+                durationSeconds: editingRun.duration % 60,
                 run_type: editingRun.run_type,
                 elevation: editingRun.elevation ?? "",
                 heart_rate: editingRun.heart_rate ?? "",
@@ -56,6 +60,11 @@ function RunForm({
 
         setError("");
 
+        const duration =
+            Number(formData.durationHours) * 3600 +
+            Number(formData.durationMinutes) * 60 +
+            Number(formData.durationSeconds);
+
         if (!formData.date) {
             setError("Please select a date.");
             return;
@@ -66,7 +75,7 @@ function RunForm({
             return;
         }
 
-        if (!formData.duration || Number(formData.duration) <= 0) {
+        if (duration <= 0) {
             setError("Duration must be greater than 0.");
             return;
         }
@@ -79,7 +88,7 @@ function RunForm({
         const runData = {
             date: formData.date,
             distance: Number(formData.distance),
-            duration: Number(formData.duration),
+            duration: duration,
             run_type: formData.run_type,
             elevation: formData.elevation
                 ? Number(formData.elevation)
@@ -150,13 +159,38 @@ function RunForm({
                 />
             </label>
             <label>
-                Duration (seconds):
-                <input
-                    type="number"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={handleChange}
-                />
+                Duration:
+                <div className="duration-inputs">
+                    <input
+                        type="number"
+                        min="0"
+                        max="99"
+                        name="durationHours"
+                        value={formData.durationHours}
+                        onChange={handleChange}
+                    />
+                    <span>h</span>
+
+                    <input
+                        type="number"
+                        min="0"
+                        max="59"
+                        name="durationMinutes"
+                        value={formData.durationMinutes}
+                        onChange={handleChange}
+                    />
+                    <span>min</span>
+
+                    <input
+                        type="number"
+                        min="0"
+                        max="59"
+                        name="durationSeconds"
+                        value={formData.durationSeconds}
+                        onChange={handleChange}
+                    />
+                    <span>sec</span>
+                </div>
             </label>
             <label>
                 Run type:
@@ -199,7 +233,7 @@ function RunForm({
                     onChange={handleChange}
                 />
             </label>
-            
+
             {error && <p className="form-error">{error}</p>}
 
             <div className="form-actions">

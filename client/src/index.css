@@ -332,3 +332,18 @@ body {
 .run-actions button:active {
     transform: scale(0.98);
 }
+
+.duration-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.duration-inputs input {
+    width: 70px;
+}
+
+.duration-inputs span {
+    font-size: 14px;
+    color: #666;
+}
