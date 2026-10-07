@@ -151,6 +151,7 @@ function App() {
             
 
             <RunForm 
+                key={editingRun ? editingRun.id : "new"}
                 onRunCreated={handleRunCreated}
                 onRunUpdated={handleRunUpdated}
                 onCancelEdit={() => setEditingRun(null)}
@@ -199,7 +200,7 @@ function App() {
                 <div className="runs-list">
                     {sortedRuns.length === 0 ? (
                         <p>
-                            {filteredType === "all" 
+                            {filterType === "all" 
                                 ? "No runs yet. Add your first run!" 
                                 : "No runs found for this filter."
                             }

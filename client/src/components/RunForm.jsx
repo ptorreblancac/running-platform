@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function RunForm({
         onRunCreated,
@@ -8,21 +8,9 @@ function RunForm({
     }) {    
     const [error, setError] = useState("");
 
-    const [formData, setFormData] = useState({
-        date: "",
-        distance: "",
-        durationHours: "0",
-        durationMinutes: "0",
-        durationSeconds: "0",
-        run_type: "",
-        elevation: "",
-        heart_rate: "",
-        notes: ""
-    });
-
-    useEffect(() => {
+    const [formData, setFormData] = useState(() => {
         if (editingRun) {
-            setFormData({
+            return {
                 date: editingRun.date,
                 distance: editingRun.distance,
                 durationHours: Math.floor(editingRun.duration / 3600),
@@ -32,19 +20,21 @@ function RunForm({
                 elevation: editingRun.elevation ?? "",
                 heart_rate: editingRun.heart_rate ?? "",
                 notes: editingRun.notes ?? ""
-            });
-        } else {
-            setFormData({
-                date: "",
-                distance: "",
-                duration: "",
-                run_type: "",
-                elevation: "",
-                heart_rate: "",
-                notes: ""
-            });
+            };
         }
-    }, [editingRun]);
+
+        return {
+            date: "",
+            distance: "",
+            durationHours: "0",
+            durationMinutes: "0",
+            durationSeconds: "0",
+            run_type: "",
+            elevation: "",
+            heart_rate: "",
+            notes: ""
+        };
+    });
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -128,7 +118,9 @@ function RunForm({
         setFormData({
             date: "",
             distance: "",
-            duration: "",
+            durationHours: "0",
+            durationMinutes: "0",
+            durationSeconds: "0",
             run_type: "",
             elevation: "",
             heart_rate: "",
