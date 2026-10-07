@@ -43,8 +43,12 @@ React frontend, REST APIs, PostrgreSQL database, input validation and backend te
 The application follows a client-server architecture:
 
 React frontend
+        |
+        | HTTP request
         ↓
 Express REST API
+        |
+        | SQL query
         ↓
 PostgreSQL database
 
@@ -52,49 +56,33 @@ The React frontend communicates with the Express API through an HTTP request. Th
 validation and database operations, and sends SQL queries to perform te proper operations on the database, which stores all the running data.
 
 ## Project Structure
+
 running-platform/
-
-├── client/  
-
-|    └── src/
-
-|         ├── components/
-
-|         |    ├── RunCard.jsx 
-
-|         |    └── RunForm.jsx
-
-|         ├── utils/ 
-
-|         |    └── formatters.js 
-
-|         ├── App.jsx 
-
-|         ├── index.css 
-
-|         └── main.jsx
-
-├── server/       
-
-|    ├── src/ 
-
-│    │    ├── routes/ 
-
-│    │    │     └── runs.js
-
-│    │    ├── app.js 
-
-│    │    ├── db.js 
-
-│    │    └── server.js
-
-│    └── tests/ 
-
-│         └── runs.test.js  
-
-├── .gitignore
-
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── RunCard.jsx
+│   │   │   └── RunForm.jsx
+│   │   ├── utils/
+│   │   │   └── formatters.js
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   └── package.json
+│
+├── server/
+│   ├── src/
+│   │   ├── routes/
+│   │   │   └── runs.js
+│   │   ├── app.js
+│   │   ├── db.js
+│   │   └── server.js
+│   ├── tests/
+│   │   └── runs.test.js
+│   └── package.json
+│
 └── README.md
+
 
 ## API
 
