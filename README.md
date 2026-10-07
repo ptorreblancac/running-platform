@@ -104,6 +104,7 @@ appropriate status codes.
 ## Database
 The application uses PostgreSQL with a runs table containing:
 
+```text
 id
 date
 distance
@@ -113,6 +114,7 @@ elevation
 heart_rate
 notes
 created_at
+```
 
 Duration is stored in seconds in the database and converted into a more readable format in the frontend.
 
@@ -136,9 +138,10 @@ Create the required runs table using the project's database schema.
 
 ### 3. Install backend dependencies
 
+```text
 cd server
-
 npm install
+```
 
 Start the backend: npm start
 
@@ -148,9 +151,10 @@ The API will run locally on: http://localhost:3000
 
 Open another terminal:
 
+```text
 cd client
-
 npm install
+```
 
 Start the React development server: npm run dev
 
@@ -172,9 +176,10 @@ Current test suite: 31 tests passing.
 
 To run the tests, use:
 
+```text
 cd server
-
 npm test
+```
 
 
 ## What I Learned
