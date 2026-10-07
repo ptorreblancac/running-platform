@@ -90,9 +90,13 @@ running-platform/
 
 ### Runs
 POST /api/runs -> Create a new run
+
 GET /api/runs -> Get all runs
+
 GET /api/runs/:id -> Get a specific run
+
 PUT /api/runs/:id -> Update a run
+
 DELETE /api/runs/:id -> Delete a run
 
 The API also handles invalid routes and database errors with
