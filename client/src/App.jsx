@@ -3,6 +3,8 @@ import RunCard from "./components/RunCard";
 import { formatPace } from "./utils/formatters";
 import RunForm from "./components/RunForm";
 
+const API_URL = "http://localhost:3000/api/runs";
+
 function App() {
 
     const [runs, setRuns] = useState([]);
@@ -13,7 +15,7 @@ function App() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/runs")
+        fetch(API_URL)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch runs");
@@ -53,20 +55,27 @@ function App() {
         if (!confirmed) {
             return;
         }
-        const response = await fetch(
-            `http://localhost:3000/api/runs/${id}`,
-            {
-                method: "DELETE"
-            }
-        );
 
-        if (!response.ok) {
-            throw new Error("Failed to delete run");
+        try {
+           const response = await fetch(
+                `${API_URL}/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to delete run");
+            }
+
+            setRuns(prevRuns =>
+                prevRuns.filter(run => run.id !== id)
+            ); 
+        } catch (error) {
+            setError(error.message);
         }
 
-        setRuns(prevRuns =>
-            prevRuns.filter(run => run.id !== id)
-        );
+        
     }
 
     function handleEdit(run) {

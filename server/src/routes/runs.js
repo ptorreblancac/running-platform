@@ -120,7 +120,7 @@ router.delete("/:id", async (req, res) => {
         });
 }
 
-        res.json({ message : "Run deleted succesfully!" });
+        res.json({ message : "Run deleted successfully!" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Database error" });

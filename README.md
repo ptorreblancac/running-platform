@@ -1,62 +1,77 @@
 ## Running Platform
 
-## Overview
-Running platform is a full-stack project that acts as a central dashboard to record runs, track progress, visualize statistics
-and create running goals to get personalised plans. The project is being developed as a portfolio project to practice full-stack, RESTAPI, and database management, as well as application development.
+A full-stack web application for tracking and managing running activities.
+
+The project serves as a practice to build a complete software application, including a
+React frontend, REST APIs, PostrgreSQL database, input validation and backend testing.
 
 ## Features
-
-### Current
-
-### Planned
-- [ ] Record a running activity
-- [ ] View running history
-- [ ] Edit and delete runs
-- [ ] Calculate running pace
-- [ ] Set running goals
-- [ ] Dashboard with running statistics
-- [ ] Progress charts
-- [ ] Personal records
-- [ ] GPX file import
-- [ ] User authentication
-- [ ] Training plans
+- Create, edit, and delete running activities.
+- View all recorded runs.
+- Filter runs by type.
+- Sort runs by:
+        - Date
+        - Distance
+        - Pace
+- Calculate running statistics for: total number of runs, total distance and average pace.
+- Input validation and error handling.
+- Resposive interface for both desktop and mobile.
+- Automated backend API tests.
 
 ## Tech Stack
 
 ### Frontend
 - React
+- Vite
 - JavaScript
 - HTML/CSS
 
 ### Backend
 - Node.js
 - Express.js
+- REST API
 
 ### Database
 - PostgreSQL
 
-### Tools & Infrastructure
-- Git
-- GitHub
-- Docker
-- REST API
+## Testing
+- Jest
+- Supertest
+- ESLint
 
 ## Architecture
 The application follows a client-server architecture:
 
 React frontend
         ↓
-REST API
-        ↓
-Node.js + Express backend
+Express REST API
         ↓
 PostgreSQL database
 
+The React frontend communicates with the Express API through an HTTP request. The backend handles
+validation and database operations, and sends SQL queries to perform te proper operations on the database, which stores all the running data.
+
 ## Project Structure
 running-platform/
-├── client/          # React frontend
-├── server/          # Node.js + Express backend
-├── database/        # Database schema and scripts
+├── client/  
+|    └── src/
+|         ├── components/
+|         |    ├── RunCard.jsx 
+|         |    └── RunForm.jsx
+|         ├── utils/ 
+|         |    └── formatters.js 
+|         ├── App.jsx 
+|         ├── index.css 
+|         └── main.jsx
+├── server/       
+|    ├── src/ 
+│    │    ├── routes/ 
+│    │    │     └── runs.js 
+│    │    ├── app.js 
+│    │    ├── db.js 
+│    │    └── server.js 
+│    └── tests/ 
+│         └── runs.test.js   
 ├── .gitignore
 └── README.md
 
@@ -69,26 +84,93 @@ GET /api/runs/:id -> Get a specific run
 PUT /api/runs/:id -> Update a run
 DELETE /api/runs/:id -> Delete a run
 
+The API also handles invalid routes and database errors with
+appropriate status codes.
+
 ## Database
-The application uses PostgreSQL for persistent data storage
-Main entities:
-- Users
-- Runs
-- Goals
+The application uses PostgreSQL with a runs table containing:
+
+id
+date
+distance
+duration
+run_type
+elevation
+heart_rate
+notes
+created_at
+
+Duration is stored in seconds in the database and converted into a more readable format in the frontend.
 
 ## Getting Started
 
 ### Prerequisites
-
+Make sure you have installed:
 - Node.js
 - PostgreSQL
 - npm
 
-### Installation
+### 1. Clone the repository
 
-1. Clone the repository
-2. Install dependencies
-3. Configure environment variables
-4. Set up the PostgreSQL database
-5. Start the backend
-6. Start the frontend
+git clone <repository-url> 
+cd running-platform
+
+### 2. Set up the database
+
+Create a PostgreSQL database named: running_platform
+Create the required runs table using the project's database schema. 
+
+### 3. Install backend dependencies
+
+cd server
+npm install
+
+Start the backend: npm start
+
+The API will run locally on: http://localhost:3000
+
+### 4. Install frontend dependencies
+
+Open another terminal:
+
+cd client
+npm install
+
+Start the React development server: npm run dev
+
+Vite will provide the local URL for the frontend.
+
+### 5. Testing
+
+The backend API is tested using Jest and Supertest.
+
+The test suit covers:
+- Successful CRUD operations.
+- Missing and invalid inputs.
+- Non-existent resources.
+- Database errors.
+- Invalid routes.
+- API responses and status codes.
+
+Current test suite: 31 tests passing.
+
+To run the tests, use:
+
+cd server
+npm test
+
+
+## What I Learned
+Throughout this project, I practiced building a full-stack project rather than two separate
+frontend and backend, as I had mainly done before.
+
+The key areas I worked with are:
+- Designing and implementing REST APIs.
+- Connecting a Node.js/Express backend to PostgreSQL.
+- Managing state and API requests in React.
+- Handling loading, validation and error states.
+- Writing automated tests with Jest and Supertest.
+- Structuring the project in separate backend and frontend components.
+
+
+

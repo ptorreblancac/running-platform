@@ -393,7 +393,7 @@ describe("DELETE /api/runs/:id", () => {
         const response = await request(app).delete("/api/runs/1");
 
         expect(response.statusCode).toBe(200);
-        expect(response.body.message).toBe("Run deleted succesfully!");
+        expect(response.body.message).toBe("Run deleted successfully!");
     });
 
     test("returns 404 when run does not exist", async () => {
