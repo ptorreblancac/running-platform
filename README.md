@@ -136,6 +136,7 @@ cd running-platform
 ### 2. Set up the database
 
 Create a PostgreSQL database named: running_platform
+
 Create the required runs table using the project's database schema. 
 
 ### 3. Install backend dependencies
