@@ -128,8 +128,10 @@ Make sure you have installed:
 
 ### 1. Clone the repository
 
-git clone <repository-url> 
+```text
+git clone https://github.com/ptorreblancac/running-platform.git
 cd running-platform
+```
 
 ### 2. Set up the database
 
