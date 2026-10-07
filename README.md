@@ -9,10 +9,7 @@ React frontend, REST APIs, PostrgreSQL database, input validation and backend te
 - Create, edit, and delete running activities.
 - View all recorded runs.
 - Filter runs by type.
-- Sort runs by:
-        - Date
-        - Distance
-        - Pace
+- Sort runs by: date, distance or pace.
 - Calculate running statistics for: total number of runs, total distance and average pace.
 - Input validation and error handling.
 - Resposive interface for both desktop and mobile.
