@@ -57,8 +57,7 @@ validation and database operations, and sends SQL queries to perform te proper o
 
 ## Project Structure
 
-## Project Structure
-
+```text
 running-platform/
 ├── client/
 │   ├── src/
@@ -84,6 +83,7 @@ running-platform/
 │   └── package.json
 │
 └── README.md
+```
 
 
 ## API
