@@ -53,26 +53,47 @@ validation and database operations, and sends SQL queries to perform te proper o
 
 ## Project Structure
 running-platform/
+
 ├── client/  
+
 |    └── src/
+
 |         ├── components/
+
 |         |    ├── RunCard.jsx 
+
 |         |    └── RunForm.jsx
+
 |         ├── utils/ 
+
 |         |    └── formatters.js 
+
 |         ├── App.jsx 
+
 |         ├── index.css 
+
 |         └── main.jsx
+
 ├── server/       
+
 |    ├── src/ 
+
 │    │    ├── routes/ 
-│    │    │     └── runs.js 
+
+│    │    │     └── runs.js
+
 │    │    ├── app.js 
+
 │    │    ├── db.js 
-│    │    └── server.js 
+
+│    │    └── server.js
+
 │    └── tests/ 
-│         └── runs.test.js   
+
+│         └── runs.test.js  
+
 ├── .gitignore
+
 └── README.md
 
 ## API
@@ -123,6 +144,7 @@ Create the required runs table using the project's database schema.
 ### 3. Install backend dependencies
 
 cd server
+
 npm install
 
 Start the backend: npm start
@@ -134,6 +156,7 @@ The API will run locally on: http://localhost:3000
 Open another terminal:
 
 cd client
+
 npm install
 
 Start the React development server: npm run dev
@@ -157,6 +180,7 @@ Current test suite: 31 tests passing.
 To run the tests, use:
 
 cd server
+
 npm test
 
 
