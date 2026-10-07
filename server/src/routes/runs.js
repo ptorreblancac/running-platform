@@ -77,6 +77,12 @@ router.put("/:id", async (req, res) => {
             notes
         } = req.body;
 
+        if (!date || distance === undefined || duration === undefined || !run_type) {
+            return res.status(400).json({ error: "Missing required fields" });
+        } else if (distance <= 0 || duration <= 0) {
+            return res.status(400).json({ error: "Invalid values" });
+        }
+
         const result = await pool.query(
             `UPDATE runs
             SET date = $1, distance = $2, duration = $3, run_type = $4, elevation = $5,

@@ -77,6 +77,26 @@ describe("GET /api/runs", () => {
         expect(response.body.error).toBe("Run not found");
 
     });
+
+    test("Should return 500 when database query fails", async () => {
+
+        pool.query.mockRejectedValue(new Error("Database error"));
+
+        const response = await request(app).get("/api/runs");
+
+        expect(response.statusCode).toBe(500);
+        expect(response.body.error).toBe("Database error");
+    });
+
+    test("Should return 500 when database query fails for a specific run", async () => {
+
+        pool.query.mockRejectedValue(new Error("Database error"));
+
+        const response = await request(app).get("/api/runs/1");
+
+        expect(response.statusCode).toBe(500);
+        expect(response.body.error).toBe("Database error");
+    });
 })
 
 describe("POST /api/runs", () => {
@@ -197,6 +217,27 @@ describe("POST /api/runs", () => {
         expect(response.statusCode).toBe(400);
         expect(response.body.error).toBe("Invalid values");
     });
+
+    test("Should return 500 when database query fails", async () => {
+
+        pool.query.mockRejectedValue(new Error("Database error"));
+
+        const response = await request(app)
+        .post("/api/runs")
+        .send({
+            date: "2026-09-22",
+            distance: 5,
+            duration: 1800,
+            run_type: "easy",
+            elevation: 50,
+            heart_rate: 150,
+            notes: "Test"
+        });
+
+        expect(response.statusCode).toBe(500);
+        expect(response.body.error).toBe("Database error");
+
+    });
 });
 
 describe("PUT /api/runs/:id", () => {
@@ -268,6 +309,74 @@ describe("PUT /api/runs/:id", () => {
         expect(response.statusCode).toBe(500);
         expect(response.body.error).toBe("Database error");
     });
+
+    test.each([
+        ["missing date", {
+            distance: 5,
+            duration: 30,
+            run_type: "easy"
+        }],
+        ["missing distance", {
+            date: "2026-09-22",
+            duration: 30,
+            run_type: "easy"
+        }],
+        ["missing duration", {
+            date: "2026-09-22",
+            distance: 5,
+            run_type: "easy"
+        }],
+        ["missing run_type", {
+            date: "2026-09-22",
+            distance: 5,
+            duration: 30
+        }]
+    ])("rejects requests with %s", async (description, invalidRun) => {
+
+        const response = await request(app)
+        .put("/api/runs/1")
+        .send(invalidRun);
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe("Missing required fields");
+    });
+
+    test.each([
+        ["negative distance", {
+            date: "2026-09-22",
+            distance: -5,
+            duration: 30,
+            run_type: "easy"
+        }],
+        ["zero distance", {
+            date: "2026-09-22",
+            distance: 0,
+            duration: 30,
+            run_type: "easy"
+        }],
+        ["negative duration", {
+            date: "2026-09-22",
+            distance: 5,
+            duration: -30,
+            run_type: "easy"
+        }],
+        ["zero duration", {
+            date: "2026-09-22",
+            distance: 5,
+            duration: 0,
+            run_type: "easy"
+        }]
+    ])("rejects request with %s", async (description, invalidRun) => {
+
+        const response = await request(app)
+            .put("/api/runs/1")
+            .send(invalidRun);
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe("Invalid values");
+    });
+
+
 });
 
 describe("DELETE /api/runs/:id", () => {
