@@ -39,6 +39,7 @@ React frontend, REST APIs, PostrgreSQL database, input validation and backend te
 ## Architecture
 The application follows a client-server architecture:
 
+```text
 React frontend
         |
         | HTTP request
@@ -48,6 +49,7 @@ Express REST API
         | SQL query
         ↓
 PostgreSQL database
+```
 
 The React frontend communicates with the Express API through an HTTP request. The backend handles
 validation and database operations, and sends SQL queries to perform te proper operations on the database, which stores all the running data.
