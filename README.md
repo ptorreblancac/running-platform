@@ -57,6 +57,8 @@ validation and database operations, and sends SQL queries to perform te proper o
 
 ## Project Structure
 
+## Project Structure
+
 running-platform/
 ├── client/
 │   ├── src/
